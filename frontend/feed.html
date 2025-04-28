@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackernet - Feed</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="feed-container">
+        <h2>Hackernet Feed</h2>
+
+        <div class="post-form">
+            <textarea id="postDesc" placeholder="What's on your mind?"></textarea>
+            <input type="file" id="postImage">
+            <input type="file" id="postVideo">
+            <button id="createPostBtn">Post</button>
+        </div>
+
+        <div id="postsArea">
+            <!-- Posts will be dynamically loaded here -->
+        </div>
+
+        <button id="logoutBtn">Logout</button>
+    </div>
+
+    <script src="app.js"></script>
+
+</body>
+</html>

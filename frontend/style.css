@@ -1,0 +1,71 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+    color: #00ff00;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+header, footer {
+    background-color: #111;
+    text-align: center;
+    padding: 20px;
+}
+
+nav a {
+    color: #00ff00;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #00cc00;
+}
+
+main, .login-container, .register-container, .profile-container, .feed-container, .admin-container {
+    margin: 30px auto;
+    padding: 20px;
+    max-width: 600px;
+    background-color: #111;
+    border: 1px solid #00ff00;
+    border-radius: 8px;
+}
+
+h1, h2, h3 {
+    color: #00ff00;
+}
+
+input, textarea, button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background: #000;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #00ff00;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #00cc00;
+}
+
+img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    margin: 10px 0;
+    border: 2px solid #00ff00;
+    border-radius: 8px;
+}
+
+#postsArea, #userList, #reportList {
+    margin-top: 20px;
+}

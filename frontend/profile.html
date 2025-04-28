@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackernet - Profile</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="profile-container">
+        <h2>Your Profile</h2>
+
+        <div class="profile-info">
+            <img id="profilePicture" src="uploads/default-profile.png" alt="Profile Picture">
+            <input type="file" id="profilePicUpload">
+            <img id="coverPicture" src="uploads/default-cover.png" alt="Cover Picture">
+            <input type="file" id="coverPicUpload">
+            <h3 id="username">@username</h3>
+            <p id="bio">Your bio will appear here...</p>
+            <input type="text" id="bioInput" placeholder="Update your bio">
+            <button id="updateProfileBtn">Update Profile</button>
+        </div>
+
+        <button id="logoutBtn">Logout</button>
+
+    </div>
+
+    <script src="app.js"></script>
+
+</body>
+</html>
