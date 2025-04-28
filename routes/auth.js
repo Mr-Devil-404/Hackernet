@@ -1,13 +1,11 @@
-const express = require('express');
-const bcrypt = require('bcrypt');
-const User = require('../models/User');
+const router = require("express").Router();
+const User = require("../models/User");
+const bcrypt = require("bcryptjs");
 
-const router = express.Router();
-
-// Register
-router.post('/register', async (req, res) => {
+// REGISTER
+router.post("/register", async (req, res) => {
   try {
-    // Generate password hash
+    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
@@ -18,18 +16,11 @@ router.post('/register', async (req, res) => {
       password: hashedPassword,
     });
 
-    // Save user and respond
+    // Save user
     const user = await newUser.save();
-    res.status(201).json({
-      message: "User has been created successfully!",
-      user: {
-        id: user._id,
-        username: user.username,
-        email: user.email,
-      },
-    });
+    res.status(200).json(user);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json(err);
   }
 });
 
