@@ -1,20 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const { registerUser, loginUser } = require('../controllers/user');
-const verifyToken = require('../middleware/authMiddleware'); // Middleware Import করো
+const { protect } = require('../middleware/authMiddleware');
 
-// Register API
+// Public Routes
 router.post('/register', registerUser);
-
-// Login API
 router.post('/login', loginUser);
 
-// Profile API (Protected Route)
-router.get('/profile', verifyToken, (req, res) => {
-    res.status(200).json({
-        msg: "Profile Accessed Successfully!",
-        user: req.user, // Token থেকে পাওয়া ইউজার দেখাবে
-    });
+// Protected Route
+router.get('/profile', protect, (req, res) => {
+  res.status(200).json({
+    message: "Profile Accessed Successfully!",
+    user: req.user, // Token verify হলে user data আসবে
+  });
 });
 
 module.exports = router;
