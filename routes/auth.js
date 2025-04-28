@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-// Register User (তুমি এটা আগেই করছো)
+// Register User
 router.post('/register', async (req, res) => {
   try {
     const salt = await bcrypt.genSalt(10);
