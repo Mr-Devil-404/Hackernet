@@ -9,6 +9,11 @@ const adminRoutes = require('./routes/admin');
 const storyRoutes = require('./routes/story');
 const app = express();
 
+// Main Route
+app.get("/", (req, res) => {
+  res.send("✅ Hackernet Server is Running Successfully!");
+});
+
 dotenv.config();
 
 // Database Connection
