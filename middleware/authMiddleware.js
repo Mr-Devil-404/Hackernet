@@ -1,18 +1,24 @@
+// middlewares/authMiddleware.js
+
 const jwt = require('jsonwebtoken');
 
-// Verify Token Middleware
+// Middleware function
 const verifyToken = (req, res, next) => {
-    const authHeader = req.headers.token;
-    if (authHeader) {
-        const token = authHeader.split(" ")[1];
-        jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-            if (err) return res.status(403).json("Token is not valid!");
-            req.user = user;
-            next();
-        });
-    } else {
-        return res.status(401).json("You are not authenticated!");
-    }
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res.status(401).json({ msg: "No token provided!" });
+  }
+
+  const token = authHeader.split(' ')[1];
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // Save user data in request
+    next(); // Move to next middleware or controller
+  } catch (err) {
+    return res.status(401).json({ msg: "Invalid token!" });
+  }
 };
 
-module.exports = { verifyToken };
+module.exports = verifyToken;
