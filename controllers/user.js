@@ -1,11 +1,20 @@
-const User = require("../models/User");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const User = require('../models/User');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-// REGISTER
 const registerUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
+
+    if (!username || !email || !password) {
+      return res.status(400).json({ msg: "All fields are required" });
+    }
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ msg: "User already exists" });
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -16,16 +25,22 @@ const registerUser = async (req, res) => {
     });
 
     await newUser.save();
+
     res.status(201).json(newUser);
-  } catch (err) {
-    res.status(500).json(err);
+  } catch (error) {
+    console.error("Register Error:", error.message);
+    res.status(500).json({ msg: "Server Error" });
   }
 };
 
-// LOGIN
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ msg: "All fields are required" });
+    }
+
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ msg: "Invalid Credentials" });
@@ -36,17 +51,17 @@ const loginUser = async (req, res) => {
       return res.status(400).json({ msg: "Invalid Credentials" });
     }
 
-    const payload = { id: user.id };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET || "yourSecretKey",
+      { expiresIn: "1d" }
+    );
 
     res.status(200).json({ token });
   } catch (error) {
-    console.error(error.message);
+    console.error("Login Error:", error.message);
     res.status(500).json({ msg: "Server Error" });
   }
 };
 
-module.exports = {
-  registerUser,
-  loginUser,
-};
+module.exports = { registerUser, loginUser };
