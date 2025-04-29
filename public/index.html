@@ -1,86 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>BLACK DEVIL - Hackernet</title>
+  <meta charset="UTF-8">
+  <title>Hackernet Terminal</title>
   <style>
-    body {
-      background-color: black;
-      color: #00ff00;
-      font-family: 'Courier New', Courier, monospace;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
-      padding: 0 10px;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    pre {
+    body {
+      background: black;
       color: #00ff00;
-      font-size: 14px;
+      font-family: 'Courier New', Courier, monospace;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      z-index: 2;
+      position: relative;
+    }
+
+    .logo-box {
+      border: 2px solid #00ff00;
+      padding: 20px;
+      display: inline-block;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .ascii {
+      font-size: 18px;
       line-height: 1.4;
-      animation: glow 1.5s ease-in-out infinite alternate;
+      white-space: pre;
+      color: #00ff00;
     }
 
     .info {
-      margin-top: 1rem;
+      margin-top: 10px;
+      text-align: left;
       color: cyan;
       font-size: 1rem;
     }
 
-    .tools {
-      margin-top: 1rem;
-      color: yellow;
+    .info span {
+      color: #fff;
+    }
+
+    .features {
+      color: magenta;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .typing {
+      color: lime;
       font-size: 1rem;
+      margin-top: 20px;
+      border-right: 2px solid lime;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      animation: typing 6s steps(40, end) forwards, blink 0.75s step-end infinite;
     }
 
-    .highlight {
-      color: red;
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
     }
 
-    @keyframes glow {
-      from {
-        text-shadow: 0 0 10px #00ff00;
-      }
-      to {
-        text-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00;
-      }
+    @keyframes blink {
+      50% { border-color: transparent; }
     }
 
-    .footer {
-      margin-top: 2rem;
-      font-size: 0.9rem;
-      color: #aaa;
+    /* Background animation */
+    .background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(#0f0 1px, transparent 1px);
+      background-size: 20px 20px;
+      animation: move 10s linear infinite;
+      z-index: 0;
+      opacity: 0.1;
+    }
+
+    @keyframes move {
+      from { background-position: 0 0; }
+      to { background-position: 100px 100px; }
     }
   </style>
 </head>
 <body>
-
-  <pre>
-┌─────────────────────────────────────────────┐
-│                 BLACK DEVIL                │
-│─────────────────────────────────────────────│
-│  FB   : PRINCE LIKHON                       │
-│  CEO  : Likhon                              │
-│  GIT  : <span style="color:violet;">MrDevilEx</span>                        │
-│─────────────────────────────────────────────│
-│  TOOL     : Hackernet Dashboard             │
-│  FEATURES : Account Reg & Login             │
-│             Token Protected API             │
-│             Visitor Counter                 │
-│             H4ck Terminal UI                │
-│─────────────────────────────────────────────│
-│  WP : +966578146776     VERSION : <span class="highlight">X</span>         │
-└─────────────────────────────────────────────┘
-  </pre>
-
-  <div class="info">Development : MrDevilEx</div>
-  <div class="info">Facebook Page : Devil Termux World</div>
-
-  <div class="footer">
-    &copy; 2025 Hackernet Terminal. All rights reserved.
+  <div class="background"></div>
+  <div class="container">
+    <div class="logo-box">
+      <div class="ascii">
+        +-----------------------------+<br>
+        |   ██████╗░░█████╗░░█████╗░  |<br>
+        |   ██╔══██╗██╔══██╗██╔══██╗ |<br>
+        |   ██████╦╝██║░░██║██║░░██║ |<br>
+        |   ██╔══██╗██║░░██║██║░░██║ |<br>
+        |   ██████╦╝╚█████╔╝╚█████╔╝ |<br>
+        |   ╚═════╝░░╚════╝░░╚════╝░ |<br>
+        |        DEVIL | COMING SOON |<br>
+        +-----------------------------+
+      </div>
+      <div class="info">
+        <p><strong>Development :</strong> <span>MrDevilEx</span></p>
+        <p><strong>Facebook Page :</strong> <span>Devil Termux World</span></p>
+        <p class="features">FEATURES : HACKERNET Social Media Toolkit</p>
+      </div>
+      <div class="typing">Initializing Hackernet Terminal...</div>
+    </div>
   </div>
 </body>
 </html>
