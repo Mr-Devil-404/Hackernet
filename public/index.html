@@ -20,80 +20,121 @@
       z-index: -1;
     }
 
-    .terminal {
+    .container {
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       text-align: center;
       height: 100vh;
-      z-index: 2;
+      padding: 20px;
+    }
+
+    .login-box {
+      border: 2px solid #00ff00;
+      padding: 20px;
+      width: 300px;
+      background: rgba(0, 0, 0, 0.8);
+      margin-bottom: 30px;
+    }
+
+    .login-box h2 {
+      color: #00ff00;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: black;
+      border: 1px solid #00ff00;
+      color: #00ff00;
+      font-family: inherit;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #00ff00;
+      color: black;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
     }
 
     .info-box {
       border: 2px solid #00ff00;
-      padding: 20px;
-      width: max-content;
-      margin-bottom: 1rem;
+      padding: 15px;
+      margin-bottom: 15px;
     }
 
-    .info {
-      color: #00ffff;
+    .info-box .info {
+      color: cyan;
+      margin-bottom: 5px;
     }
 
-    .features {
+    .info-box .features {
       color: magenta;
     }
 
     .typing {
       color: #00ff00;
       font-weight: bold;
-      border-right: 2px solid #00ff00;
+      font-size: 16px;
       white-space: nowrap;
       overflow: hidden;
-      animation: typing 3s steps(40, end), blink 0.75s step-end infinite;
-      font-size: 16px;
+      border-right: 2px solid #00ff00;
+      animation: typing 3s steps(30, end), blink 0.8s step-end infinite;
     }
 
     @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
+      from { width: 0; }
+      to { width: 100%; }
     }
 
     @keyframes blink {
-      from, to { border-color: transparent }
-      50% { border-color: #00ff00; }
+      50% { border-color: transparent; }
     }
   </style>
 </head>
 <body>
   <canvas id="matrix"></canvas>
 
-  <div class="terminal">
-    <div class="info-box">
-      <div class="info">
-        Development : MrDevilEx<br />
-        Facebook Page : Devil Termux World
-      </div>
-      <div class="features">
-        FEATURES : HACKERNET Social Media Toolkit
-      </div>
+  <div class="container">
+    <div class="login-box">
+      <h2>Login</h2>
+      <input type="text" placeholder="Username" />
+      <input type="password" placeholder="Password" />
+      <button>Login</button>
     </div>
+
+    <div class="info-box">
+      <div class="info">Development : MrDevilEx</div>
+      <div class="info">Facebook Page : Devil Termux World</div>
+      <div class="features">FEATURES : HACKERNET SOCIAL MEDIA</div>
+    </div>
+
     <div class="typing">Initializing Hackernet Terminal...</div>
+    <div style="color: #00ff00; font-weight: bold; margin-top: 10px;">COMING SOON 🔒</div>
   </div>
 
   <script>
-    // Matrix background animation
     const canvas = document.getElementById("matrix");
     const ctx = canvas.getContext("2d");
 
-    canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
 
     const letters = "01";
-    const fontSize = 14;
-    const columns = canvas.width / fontSize;
-    const drops = Array.from({ length: columns }).fill(1);
+    const fontSize = 16;
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops = Array(columns).fill(1);
 
     function drawMatrix() {
       ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
@@ -104,10 +145,8 @@
 
       drops.forEach((y, i) => {
         const text = letters[Math.floor(Math.random() * letters.length)];
-        const x = i * fontSize;
-        ctx.fillText(text, x, y * fontSize);
-
-        drops[i] = y * fontSize > canvas.height && Math.random() > 0.975 ? 0 : y + 1;
+        ctx.fillText(text, i * fontSize, y * fontSize);
+        drops[i] = (y * fontSize > canvas.height && Math.random() > 0.975) ? 0 : y + 1;
       });
     }
 
