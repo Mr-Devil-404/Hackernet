@@ -1,31 +1,21 @@
+require('dotenv').config(); // এটি একদম শুরুতে থাকতে হবে
+
 const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const dotenv = require('dotenv');
-
 const app = express();
-dotenv.config();
+const mongoose = require('mongoose');
+const authRoutes = require('./routes/auth');
+const adminRoutes = require('./routes/admin');
 
-// Middleware
-app.use(cors());
 app.use(express.json());
 
-// Import Routes
-const userRoutes = require('./routes/userRoutes');
+// MongoDB Connection
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('✅ Connected to MongoDB'))
+  .catch(err => console.error('❌ MongoDB Connection Error:', err));
 
 // Routes
-app.use('/api/auth', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes); // optional
 
-// Database Connection
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-.then(() => console.log('MongoDB Connected Successfully'))
-.catch(err => console.error('MongoDB Connection Error:', err));
-
-// Server Listen
 const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
