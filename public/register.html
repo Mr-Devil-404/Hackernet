@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hackernet Terminal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: #00ff00;
+      font-family: 'Courier New', Courier, monospace;
+      overflow: hidden;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 20px;
+    }
+
+    .form-box {
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid #00ff00;
+      padding: 20px;
+      margin-bottom: 20px;
+      width: 300px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #00ff00;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: black;
+      border: 1px solid #00ff00;
+      color: #00ff00;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #00ff00;
+      border: none;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #00cc00;
+    }
+
+    .info-box {
+      text-align: center;
+      color: cyan;
+      margin-top: 10px;
+    }
+
+    .features {
+      color: magenta;
+      margin-top: 5px;
+    }
+
+    .typing {
+      color: #00ff00;
+      font-weight: bold;
+      font-size: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid #00ff00;
+      animation: typing 3s steps(30, end), blink 0.8s step-end infinite;
+      margin-top: 15px;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="matrix"></canvas>
+
+  <div class="container">
+
+    <div class="form-box">
+      <h2>Login</h2>
+      <input type="text" id="username" placeholder="Username / Email">
+      <input type="password" id="password" placeholder="Password">
+      <button onclick="login()">Login</button>
+    </div>
+
+    <div class="form-box">
+      <h2>Register</h2>
+      <input type="text" id="regUsername" placeholder="Username">
+      <input type="email" id="regEmail" placeholder="Email">
+      <input type="password" id="regPassword" placeholder="Password">
+      <button onclick="register()">Register</button>
+    </div>
+
+    <div class="info-box">
+      Development : MrDevilEx<br>
+      Facebook Page : Devil Termux World
+      <div class="features">FEATURES : HACKERNET SOCIAL MEDIA</div>
+    </div>
+
+    <div class="typing">Initializing Hackernet Terminal...</div>
+    <div style="margin-top: 10px;">COMING SOON 🔒</div>
+  </div>
+
+  <script>
+    // Matrix Background
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+    const letters = "01";
+    const fontSize = 16;
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops = Array(columns).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#0f0";
+      ctx.font = fontSize + "px monospace";
+
+      drops.forEach((y, i) => {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, y * fontSize);
+        drops[i] = (y * fontSize > canvas.height && Math.random() > 0.975) ? 0 : y + 1;
+      });
+    }
+
+    setInterval(drawMatrix, 50);
+
+    // Login Function
+    async function login() {
+      const email = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const res = await fetch("https://hacker-net.onrender.com/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          alert("Login Successful! Token:\n" + data.token);
+        } else {
+          alert("Login Failed:\n" + data.message);
+        }
+      } catch (err) {
+        alert("Error: " + err.message);
+      }
+    }
+
+    // Register Function
+    async function register() {
+      const username = document.getElementById("regUsername").value;
+      const email = document.getElementById("regEmail").value;
+      const password = document.getElementById("regPassword").value;
+
+      try {
+        const res = await fetch("https://hacker-net.onrender.com/api/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, email, password })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          alert("Registration Successful! Now Login.");
+        } else {
+          alert("Registration Failed:\n" + data.message);
+        }
+      } catch (err) {
+        alert("Error: " + err.message);
+      }
+    }
+  </script>
+</body>
+    </html>
