@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hackernet Terminal</title>
+  <title>Hackernet - Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
       margin: 0;
@@ -12,145 +12,68 @@
       font-family: 'Courier New', Courier, monospace;
       overflow: hidden;
     }
-
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
-
+    canvas { position: fixed; top: 0; left: 0; z-index: -1; }
     .container {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      height: 100vh;
-      padding: 20px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      height: 100vh; text-align: center;
     }
-
-    .login-box {
-      border: 2px solid #00ff00;
-      padding: 20px;
-      width: 300px;
-      background: rgba(0, 0, 0, 0.8);
-      margin-bottom: 30px;
+    .form-box {
+      border: 2px solid #00ff00; padding: 20px; width: 300px;
+      background: rgba(0,0,0,0.8); margin-bottom: 20px;
     }
-
-    .login-box h2 {
-      color: #00ff00;
-      margin-bottom: 20px;
+    input, button {
+      width: 100%; padding: 10px; margin-bottom: 10px;
+      background: black; color: #00ff00; border: 1px solid #00ff00;
     }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      background: black;
-      border: 1px solid #00ff00;
-      color: #00ff00;
-      font-family: inherit;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      background: #00ff00;
-      color: black;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-    }
-
-    .info-box {
-      border: 2px solid #00ff00;
-      padding: 15px;
-      margin-bottom: 15px;
-    }
-
-    .info-box .info {
-      color: cyan;
-      margin-bottom: 5px;
-    }
-
-    .info-box .features {
-      color: magenta;
-    }
-
-    .typing {
-      color: #00ff00;
-      font-weight: bold;
-      font-size: 16px;
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 2px solid #00ff00;
-      animation: typing 3s steps(30, end), blink 0.8s step-end infinite;
-    }
-
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 100%; }
-    }
-
-    @keyframes blink {
-      50% { border-color: transparent; }
-    }
+    button { background: #00ff00; color: black; font-weight: bold; }
+    .info { color: cyan; margin-top: 5px; }
+    .features { color: magenta; }
+    a { color: lime; text-decoration: underline; display: block; margin-top: 10px; }
   </style>
 </head>
 <body>
   <canvas id="matrix"></canvas>
-
   <div class="container">
-    <div class="login-box">
+    <div class="form-box">
       <h2>Login</h2>
-      <input type="text" placeholder="Username" />
-      <input type="password" placeholder="Password" />
-      <button>Login</button>
+      <input type="text" id="username" placeholder="Email">
+      <input type="password" id="password" placeholder="Password">
+      <button onclick="login()">Login</button>
+      <a href="register.html">Don't have an account? Register</a>
     </div>
-
-    <div class="info-box">
-      <div class="info">Development : MrDevilEx</div>
-      <div class="info">Facebook Page : Devil Termux World</div>
-      <div class="features">FEATURES : HACKERNET SOCIAL MEDIA</div>
-    </div>
-
-    <div class="typing">Initializing Hackernet Terminal...</div>
-    <div style="color: #00ff00; font-weight: bold; margin-top: 10px;">COMING SOON 🔒</div>
+    <div class="info">Development : MrDevilEx | Facebook Page : Devil Termux World</div>
+    <div class="features">FEATURES : HACKERNET SOCIAL MEDIA</div>
   </div>
-
   <script>
-    const canvas = document.getElementById("matrix");
-    const ctx = canvas.getContext("2d");
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
-
-    const letters = "01";
-    const fontSize = 16;
-    const columns = Math.floor(canvas.width / fontSize);
+    const canvas = document.getElementById("matrix"), ctx = canvas.getContext("2d");
+    canvas.height = window.innerHeight; canvas.width = window.innerWidth;
+    const letters = "01", fontSize = 16, columns = Math.floor(canvas.width / fontSize);
     const drops = Array(columns).fill(1);
-
-    function drawMatrix() {
+    setInterval(() => {
       ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = "#0f0";
-      ctx.font = fontSize + "px monospace";
-
+      ctx.fillStyle = "#0f0"; ctx.font = fontSize + "px monospace";
       drops.forEach((y, i) => {
         const text = letters[Math.floor(Math.random() * letters.length)];
         ctx.fillText(text, i * fontSize, y * fontSize);
         drops[i] = (y * fontSize > canvas.height && Math.random() > 0.975) ? 0 : y + 1;
       });
+    }, 50);
+    async function login() {
+      const email = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      try {
+        const res = await fetch("https://hacker-net.onrender.com/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        alert(res.ok ? "Login Successful!" : "Login Failed: " + data.message);
+      } catch (err) {
+        alert("Error: " + err.message);
+      }
     }
-
-    setInterval(drawMatrix, 50);
   </script>
 </body>
 </html>
