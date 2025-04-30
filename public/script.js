@@ -50,30 +50,3 @@ async function login() {
     alert("Error: " + err.message);
   }
 }
-
-
-// === Register Function ===
-async function register() {
-  const username = document.getElementById("regUsername").value;
-  const email = document.getElementById("regEmail").value;
-  const password = document.getElementById("regPassword").value;
-
-  try {
-    const res = await fetch("https://hacker-net.onrender.com/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, email, password })
-    });
-
-    const data = await res.json();
-
-    if (res.ok) {
-      alert("Registration Successful! Now login.");
-      window.location.href = "index.html";
-    } else {
-      alert("Registration Failed:\n" + data.message);
-    }
-  } catch (err) {
-    alert("Error: " + err.message);
-  }
-}
