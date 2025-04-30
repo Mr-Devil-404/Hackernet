@@ -1,25 +1,30 @@
-// === Register Function ===
-async function register() {
-  const username = document.getElementById("regUsername").value;
-  const email = document.getElementById("regEmail").value;
-  const password = document.getElementById("regPassword").value;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hackernet | Register</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="matrix"></canvas>
 
-  try {
-    const res = await fetch("https://hacker-net.onrender.com/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, email, password })
-    });
+  <div class="terminal">
+    <div class="login-form">
+      <h2>Register</h2>
+      <input type="text" placeholder="Username" id="regUsername" />
+      <input type="email" placeholder="Email" id="regEmail" />
+      <input type="password" placeholder="Password" id="regPassword" />
+      <button onclick="register()">Register</button>
+      <p class="switch">Already have an account? <a href="index.html">Login</a></p>
+    </div>
 
-    const data = await res.json();
+    <div class="info-box">
+      <div class="info">Development : MrDevilEx | Facebook Page : Devil Termux World</div>
+      <div class="features">FEATURES : HACKERNET SOCIAL MEDIA</div>
+    </div>
+  </div>
 
-    if (res.ok) {
-      alert("Registration Successful! Now login.");
-      window.location.href = "index.html";
-    } else {
-      alert("Registration Failed:\n" + data.message);
-    }
-  } catch (err) {
-    alert("Error: " + err.message);
-  }
-}
+  <script src="script.js"></script>
+</body>
+</html>
